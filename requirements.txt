@@ -1,9 +1,5 @@
-# Install a PyTorch build matching the active CUDA runtime first when needed.
-torch>=2.6
-torchvision>=0.21
---extra-index-url https://download.pytorch.org/whl/cu124
-
-# FLUX.2 Klein pipeline support
+# Colab usually provides a CUDA-matched PyTorch build; preserve that runtime.
+# Install PyTorch separately only if the active runtime does not already provide it.
 git+https://github.com/huggingface/diffusers.git
 transformers>=4.51.0
 accelerate>=1.2.0
