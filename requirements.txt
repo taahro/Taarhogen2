@@ -1,0 +1,12 @@
+# Install a PyTorch build matching the active CUDA runtime first when needed.
+torch>=2.6
+torchvision>=0.21
+--extra-index-url https://download.pytorch.org/whl/cu124
+
+# FLUX.2 Klein pipeline support
+git+https://github.com/huggingface/diffusers.git
+transformers>=4.51.0
+accelerate>=1.2.0
+safetensors>=0.5.0
+sentencepiece>=0.2.0
+Pillow>=10.0.0
