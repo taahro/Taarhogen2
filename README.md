@@ -25,7 +25,7 @@ These are interface and capture controls. They are not model weights or inherite
 
 ## Foundation candidate
 
-Initial integration target: `black-forest-labs/FLUX.2-klein-4B` through the Diffusers `Flux2KleinPipeline`.
+Initial integration target: \`black-forest-labs/FLUX.2-klein-4B\` through the Diffusers \`Flux2KleinPipeline\`.
 
 The model is Apache-2.0 licensed according to its official model card. The upstream model weights are not included in this repository and remain subject to their own license and usage terms. Hardware requirements must be measured on the actual runtime; the official model card describes approximately 13 GB VRAM, so a free Colab GPU is not assumed to be sufficient.
 
@@ -37,7 +37,7 @@ No hosted inference API is used by this project. The first target is local/free 
 
 ## Repository layout
 
-```
+\`\`\`
 taarhogen2/
   __init__.py
   config.py
@@ -45,30 +45,45 @@ taarhogen2/
   generate.py
 scripts/
   generate.py
+  void_probe.py
 notebooks/
   TAARHOGEN2_First_Generation.ipynb
 tests/
   test_studio.py
+  test_void_probe.py
 requirements.txt
-```
+\`\`\`
+
+## Hardware preflight for TAARHO VOID
+
+Before downloading model weights, run the read-only hardware probe in the intended Colab or local runtime:
+
+\`\`\`bash
+python scripts/void_probe.py --output outputs/void-capability-report.json
+\`\`\`
+
+The probe reports Python, RAM, disk, PyTorch/CUDA visibility, GPU names and measured VRAM when available. It makes no network requests, allocates no GPU tensors, downloads no model weights and does not execute inference.
+
+The report's readiness label is advisory. Even a \`candidate_for_load_test\` result is not proof that the model will load or generate successfully. VOID will use this report as the first evidence step before any worker pairing or job submission.
 
 ## Quick start
 
 Use Python 3.11 or 3.12 with a compatible PyTorch/CUDA runtime.
 
-```bash
+\`\`\`bash
 python -m pip install -r requirements.txt
 python scripts/generate.py --prompt "A cinematic studio portrait of a silver vintage sports car" --output outputs/first-generation.png
-```
+\`\`\`
 
-The first run downloads model components from Hugging Face. This can require substantial disk space, RAM, VRAM and network bandwidth. No token is required for the public model unless upstream access rules change.
+The first generation run downloads model components from Hugging Face. This can require substantial disk space, RAM, VRAM and network bandwidth. Do not start that download until the hardware preflight has been reviewed. No token is required for the public model unless upstream access rules change.
 
 ## Security
 
 - Never commit API keys, Hugging Face tokens, passwords, or personal credentials.
 - Model weights and generated outputs are excluded from Git.
 - Do not place private camera profile data or customer images in this public repository.
+- The hardware probe does not contact VOID or transmit telemetry; the report remains local until deliberately shared.
 
 ## Status
 
-Initial architecture scaffold. Generation is not considered verified until a runtime successfully loads the model, generates an image, and passes PNG validation.
+Initial architecture scaffold with a read-only hardware preflight. Generation is not considered verified until a runtime successfully loads the model, generates an image, and passes PNG validation.
