@@ -18,5 +18,5 @@ jobs:
         run: python -m pip install --upgrade pip pytest
       - name: Compile source
         run: python -m compileall -q taarhogen2 scripts
-      - name: Test Studio settings
+      - name: Test project and VOID hardware preflight
         run: python -m pytest -q
